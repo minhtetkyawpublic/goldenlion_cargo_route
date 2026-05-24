@@ -1,0 +1,165 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+:root {
+    --ui-primary: #155e75;
+    --ui-primary-hover: #0f4c5c;
+    --ui-primary-active: #0b3945;
+    --ui-secondary-border: #cfd7df;
+    --ui-secondary-hover: #eef4f7;
+    --ui-secondary-active: #dde6ec;
+    --ui-danger-border: #f0d8d8;
+    --ui-danger-bg: #f7ebeb;
+    --ui-danger-hover: #f3e1e1;
+    --ui-danger-active: #ebd4d4;
+    --ui-focus-ring: 0 0 0 4px rgba(21, 94, 117, 0.16);
+}
+
+html {
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+}
+
+body {
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a[href],
+button:not(:disabled),
+[role='button'],
+summary {
+    cursor: pointer;
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.12s ease,
+        opacity 0.18s ease;
+}
+
+button:disabled,
+[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+a[href]:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role='button']:focus-visible,
+summary:focus-visible {
+    outline: none;
+    box-shadow: var(--ui-focus-ring);
+}
+
+a[href]:active,
+button:not(:disabled):active,
+[role='button']:active {
+    transform: translateY(1px);
+}
+
+.ui-action-primary {
+    background: var(--ui-primary);
+    color: #fff;
+}
+
+.ui-action-primary:hover {
+    background: var(--ui-primary-hover);
+}
+
+.ui-action-primary:active {
+    background: var(--ui-primary-active);
+}
+
+.ui-action-secondary {
+    border-color: var(--ui-secondary-border);
+    background: #fff;
+    color: #475569;
+}
+
+.ui-action-secondary:hover {
+    border-color: #b9c5d0;
+    background: var(--ui-secondary-hover);
+    color: #334155;
+}
+
+.ui-action-secondary:active {
+    background: var(--ui-secondary-active);
+}
+
+.ui-action-danger {
+    border-color: var(--ui-danger-border);
+    background: var(--ui-danger-bg);
+    color: #9b4949;
+}
+
+.ui-action-danger:hover {
+    border-color: #e4c4c4;
+    background: var(--ui-danger-hover);
+    color: #8d3e3e;
+}
+
+.ui-action-danger:active {
+    background: var(--ui-danger-active);
+}
+
+.ui-clickable-card {
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.12s ease;
+}
+
+.ui-clickable-card:hover {
+    border-color: #9fb4c4;
+    background: #f8fbfd;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+}
+
+.ui-clickable-card:active {
+    transform: translateY(1px);
+}
+
+.ui-nav-link {
+    transition:
+        background-color 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.12s ease;
+}
+
+.ui-nav-link:hover {
+    transform: translateY(-1px);
+}
+
+.app-shell {
+    width: min(100%, 1280px);
+}
+
+@media (max-width: 767px) {
+    .app-shell {
+        border-radius: 22px;
+    }
+}
+
+@media (max-width: 639px) {
+    .app-shell {
+        border-radius: 18px;
+    }
+}
