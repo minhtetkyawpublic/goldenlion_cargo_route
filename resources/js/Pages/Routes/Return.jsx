@@ -3,6 +3,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
 import { cn } from '../../lib/cn';
 import { Minus, Plus, Trash2, X } from 'lucide-react';
+import { useAppPath } from '../../lib/url';
 
 function Modal({ open, title, onClose, children }) {
     if (!open) return null;
@@ -29,6 +30,7 @@ function Modal({ open, title, onClose, children }) {
 }
 
 export default function Return({ route, return_leg_id }) {
+    const appPath = useAppPath();
     const form = useForm({
         cargos: [],
         expenses: [],
@@ -112,7 +114,7 @@ export default function Return({ route, return_leg_id }) {
                         <span className="font-medium">Return:</span> {route.destination_location?.name} → {route.origin_location?.name}
                     </div>
                 </div>
-                <Link href={`/routes/${route.id}`} className="text-blue-700 hover:underline text-sm">
+                <Link href={appPath(`/routes/${route.id}`)} className="text-blue-700 hover:underline text-sm">
                     Back to view
                 </Link>
             </div>
@@ -148,7 +150,7 @@ export default function Return({ route, return_leg_id }) {
                             expenses: cleanedExpenses,
                         }));
 
-                        form.post(`/routes/${route.id}/return`, {
+                        form.post(appPath(`/routes/${route.id}/return`), {
                             onFinish: () => {
                                 form.transform(data => data);
                             },

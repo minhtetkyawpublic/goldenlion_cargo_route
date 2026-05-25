@@ -3,6 +3,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowDownCircle, ArrowUpCircle, Boxes, EllipsisVertical, History, Pencil, Warehouse, Wrench, X } from 'lucide-react';
 import AppLayout from '../../Layouts/AppLayout';
 import { cn } from '../../lib/cn';
+import { useAppPath } from '../../lib/url';
 
 function Card({ title, subtitle, action, children }) {
     return (
@@ -100,6 +101,7 @@ function quantity(value) {
 }
 
 export default function Index({ warehouse, stats, stocks, items, cars }) {
+    const appPath = useAppPath();
     const [stockInOpen, setStockInOpen] = useState(false);
     const [stockOutOpen, setStockOutOpen] = useState(false);
     const [editingStock, setEditingStock] = useState(null);
@@ -214,7 +216,7 @@ export default function Index({ warehouse, stats, stocks, items, cars }) {
                         Stock Out
                     </button>
                     <Link
-                        href="/stocks/history"
+                        href={appPath('/stocks/history')}
                         className="ui-action-secondary inline-flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium"
                     >
                         <History size={16} />
@@ -339,7 +341,7 @@ export default function Index({ warehouse, stats, stocks, items, cars }) {
                     className="space-y-4"
                     onSubmit={e => {
                         e.preventDefault();
-                        stockInForm.post('/stocks/in', {
+                        stockInForm.post(appPath('/stocks/in'), {
                             preserveScroll: true,
                             onSuccess: () => {
                                 stockInForm.reset();
@@ -479,7 +481,7 @@ export default function Index({ warehouse, stats, stocks, items, cars }) {
                     className="space-y-4"
                     onSubmit={e => {
                         e.preventDefault();
-                        stockOutForm.post('/stocks/out', {
+                        stockOutForm.post(appPath('/stocks/out'), {
                             preserveScroll: true,
                             onSuccess: () => {
                                 stockOutForm.reset();
@@ -614,7 +616,7 @@ export default function Index({ warehouse, stats, stocks, items, cars }) {
                     onSubmit={e => {
                         e.preventDefault();
                         if (!editingStock) return;
-                        editStockForm.put(`/stocks/${editingStock.id}`, {
+                        editStockForm.put(appPath(`/stocks/${editingStock.id}`), {
                             preserveScroll: true,
                             onSuccess: () => {
                                 setEditingStock(null);

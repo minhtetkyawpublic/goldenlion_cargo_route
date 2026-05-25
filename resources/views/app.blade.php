@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
-        <link rel="icon" type="image/jpeg" href="/assets/glicon.jpg">
+        <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+        <link rel="icon" type="image/jpeg" href="{{ asset('assets/glicon.jpg') }}">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
         <meta name="theme-color" content="#0b1220">
 
         @viteReactRefresh

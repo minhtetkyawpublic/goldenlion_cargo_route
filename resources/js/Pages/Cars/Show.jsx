@@ -4,6 +4,7 @@ import AppLayout from '../../Layouts/AppLayout';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 import { cn } from '../../lib/cn';
 import { CalendarRange, Filter, Plus, ReceiptText, Trash2, Wrench, X } from 'lucide-react';
+import { useAppPath } from '../../lib/url';
 
 function Card({ title, subtitle, action, children }) {
     return (
@@ -127,6 +128,7 @@ function Pagination({ links }) {
 }
 
 export default function Show({ car, stats, filters, routes, repairs }) {
+    const appPath = useAppPath();
     const [repairOpen, setRepairOpen] = useState(false);
     const [deleteRepair, setDeleteRepair] = useState(null);
 
@@ -173,7 +175,7 @@ export default function Show({ car, stats, filters, routes, repairs }) {
                         Add Repair Cost
                     </button>
                     <Link
-                        href="/cars"
+                        href={appPath('/cars')}
                         className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
                     >
                         Back to cars
@@ -205,7 +207,7 @@ export default function Show({ car, stats, filters, routes, repairs }) {
                             onSubmit={e => {
                                 e.preventDefault();
                                 router.get(
-                                    `/cars/${car.id}`,
+                                    appPath(`/cars/${car.id}`),
                                     {
                                         from_date: filterForm.data.from_date || undefined,
                                         to_date: filterForm.data.to_date || undefined,
@@ -250,7 +252,7 @@ export default function Show({ car, stats, filters, routes, repairs }) {
                                             from_date: '',
                                             to_date: '',
                                         });
-                                        router.get(`/cars/${car.id}`, {}, { preserveState: true, preserveScroll: true, replace: true });
+                                        router.get(appPath(`/cars/${car.id}`), {}, { preserveState: true, preserveScroll: true, replace: true });
                                     }}
                                 >
                                     Clear
@@ -416,7 +418,7 @@ export default function Show({ car, stats, filters, routes, repairs }) {
                     className="space-y-4"
                     onSubmit={e => {
                         e.preventDefault();
-                        repairForm.post(`/cars/${car.id}/repairs`, {
+                        repairForm.post(appPath(`/cars/${car.id}/repairs`), {
                             preserveScroll: true,
                             onSuccess: () => {
                                 repairForm.reset('repair_type', 'quantity', 'unit_cost', 'remark', 'repaired_on');
@@ -511,7 +513,7 @@ export default function Show({ car, stats, filters, routes, repairs }) {
                 onClose={() => setDeleteRepair(null)}
                 onConfirm={() => {
                     if (!deleteRepair) return;
-                    router.delete(`/cars/${car.id}/repairs/${deleteRepair.id}`, {
+                    router.delete(appPath(`/cars/${car.id}/repairs/${deleteRepair.id}`), {
                         preserveScroll: true,
                         onSuccess: () => setDeleteRepair(null),
                         onError: errors => {

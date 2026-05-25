@@ -3,6 +3,7 @@ import { Head, Link, router, useForm } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 import { EllipsisVertical, Plus, Trash2 } from 'lucide-react';
+import { useAppPath } from '../../lib/url';
 
 function Pagination({ links }) {
     if (!links || links.length === 0) return null;
@@ -30,6 +31,7 @@ function Pagination({ links }) {
 }
 
 export default function Index({ routes, cars, locations, filters }) {
+    const appPath = useAppPath();
     const form = useForm({
         car_id: filters.car_id || '',
         location_id: filters.location_id || '',
@@ -99,7 +101,7 @@ export default function Index({ routes, cars, locations, filters }) {
 
             <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div className="text-sm text-slate-600">Route totals are for the whole route, including outbound and return.</div>
-                <Link href="/routes/create" className="ui-action-primary inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium">
+                <Link href={appPath('/routes/create')} className="ui-action-primary inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium">
                     New Route
                 </Link>
             </div>
@@ -109,7 +111,7 @@ export default function Index({ routes, cars, locations, filters }) {
                     className="grid grid-cols-1 items-end gap-3 md:grid-cols-4"
                     onSubmit={e => {
                         e.preventDefault();
-                        router.get('/routes', form.data, { preserveState: true, replace: true });
+                        router.get(appPath('/routes'), form.data, { preserveState: true, replace: true });
                     }}
                 >
                     <div>
@@ -167,7 +169,7 @@ export default function Index({ routes, cars, locations, filters }) {
                         <button
                             type="button"
                             className="ui-action-secondary rounded-xl border px-4 py-2 text-sm"
-                            onClick={() => router.get('/routes', {}, { preserveState: true, replace: true })}
+                            onClick={() => router.get(appPath('/routes'), {}, { preserveState: true, replace: true })}
                         >
                             Reset
                         </button>
@@ -199,7 +201,7 @@ export default function Index({ routes, cars, locations, filters }) {
                                 <tr
                                     key={r.id}
                                     className="cursor-pointer border-t border-[#e0e5ea] bg-white transition-colors hover:bg-slate-50"
-                                    onClick={() => router.visit(`/routes/${r.id}`, { preserveScroll: true })}
+                                    onClick={() => router.visit(appPath(`/routes/${r.id}`), { preserveScroll: true })}
                                 >
                                     <td className="px-4 py-3 font-medium text-slate-900">#{r.id}</td>
                                     <td className="px-4 py-3">{statusBadge(r)}</td>
@@ -257,7 +259,7 @@ export default function Index({ routes, cars, locations, filters }) {
                 >
                     {!isFinished(data.find(route => route.id === openMenu.id) || {}) ? (
                         <Link
-                            href={`/routes/${openMenu.id}/return`}
+                            href={appPath(`/routes/${openMenu.id}/return`)}
                             className="flex items-center gap-2 px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
                             onClick={() => setOpenMenu(null)}
                         >
@@ -292,7 +294,7 @@ export default function Index({ routes, cars, locations, filters }) {
                 onConfirm={() => {
                     if (!deleteRoute) return;
                     setOpenMenu(null);
-                    router.delete(`/routes/${deleteRoute.id}`, {
+                    router.delete(appPath(`/routes/${deleteRoute.id}`), {
                         preserveScroll: true,
                         onSuccess: () => setDeleteRoute(null),
                     });

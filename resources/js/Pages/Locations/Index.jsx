@@ -4,6 +4,7 @@ import AppLayout from '../../Layouts/AppLayout';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 import { cn } from '../../lib/cn';
 import { EllipsisVertical, Pencil, Plus, Trash2, X } from 'lucide-react';
+import { useAppPath } from '../../lib/url';
 
 const LOCATION_TYPES = [
     { value: 'main', label: 'Main (Home Base)' },
@@ -65,6 +66,7 @@ function Pagination({ links }) {
 }
 
 export default function Index({ locations, filters }) {
+    const appPath = useAppPath();
     const [editingId, setEditingId] = useState(null);
     const [createOpen, setCreateOpen] = useState(false);
     const [deleteLocation, setDeleteLocation] = useState(null);
@@ -148,7 +150,7 @@ export default function Index({ locations, filters }) {
                             className="flex w-full gap-2 lg:w-auto"
                             onSubmit={e => {
                                 e.preventDefault();
-                                router.get('/locations', { search: searchForm.data.search || undefined }, { preserveState: true, replace: true });
+                                router.get(appPath('/locations'), { search: searchForm.data.search || undefined }, { preserveState: true, replace: true });
                             }}
                         >
                             <input
@@ -212,7 +214,7 @@ export default function Index({ locations, filters }) {
                                         className="grid grid-cols-1 gap-3 md:grid-cols-2"
                                         onSubmit={e => {
                                             e.preventDefault();
-                                            editForm.put(`/locations/${loc.id}`, {
+                                            editForm.put(appPath(`/locations/${loc.id}`), {
                                                 preserveScroll: true,
                                                 onSuccess: () => cancelEdit(),
                                             });
@@ -378,7 +380,7 @@ export default function Index({ locations, filters }) {
                 <form
                     onSubmit={e => {
                         e.preventDefault();
-                        createForm.post('/locations', {
+                        createForm.post(appPath('/locations'), {
                             preserveScroll: true,
                             onSuccess: () => {
                                 createForm.reset('name', 'address', 'phone_numbers');
@@ -509,7 +511,7 @@ export default function Index({ locations, filters }) {
                 onClose={() => setDeleteLocation(null)}
                 onConfirm={() => {
                     if (!deleteLocation) return;
-                    router.delete(`/locations/${deleteLocation.id}`, {
+                    router.delete(appPath(`/locations/${deleteLocation.id}`), {
                         preserveScroll: true,
                         onSuccess: () => setDeleteLocation(null),
                         onError: errors => {

@@ -4,6 +4,7 @@ import ConfirmDialog from '../../Components/ConfirmDialog';
 import { ArrowLeft, EllipsisVertical, Filter, History as HistoryIcon, Trash2 } from 'lucide-react';
 import AppLayout from '../../Layouts/AppLayout';
 import { cn } from '../../lib/cn';
+import { useAppPath } from '../../lib/url';
 
 function money(value) {
     return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(value ?? 0));
@@ -40,6 +41,7 @@ function Pagination({ links = [] }) {
 }
 
 export default function History({ warehouse, filters, transactions }) {
+    const appPath = useAppPath();
     const form = useForm({
         date_from: filters?.date_from || '',
         date_to: filters?.date_to || '',
@@ -79,7 +81,7 @@ export default function History({ warehouse, filters, transactions }) {
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                     <Link
-                        href="/stocks"
+                        href={appPath('/stocks')}
                         className="ui-action-secondary inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm"
                     >
                         <ArrowLeft size={16} />
@@ -93,7 +95,7 @@ export default function History({ warehouse, filters, transactions }) {
                     className="grid grid-cols-1 items-end gap-3 md:grid-cols-4"
                     onSubmit={e => {
                         e.preventDefault();
-                        router.get('/stocks/history', form.data, { preserveState: true, replace: true });
+                        router.get(appPath('/stocks/history'), form.data, { preserveState: true, replace: true });
                     }}
                 >
                     <div>
@@ -137,7 +139,7 @@ export default function History({ warehouse, filters, transactions }) {
                         <button
                             type="button"
                             className="ui-action-secondary rounded-xl border px-4 py-2 text-sm"
-                            onClick={() => router.get('/stocks/history', {}, { preserveState: true, replace: true })}
+                            onClick={() => router.get(appPath('/stocks/history'), {}, { preserveState: true, replace: true })}
                         >
                             Reset
                         </button>
@@ -260,7 +262,7 @@ export default function History({ warehouse, filters, transactions }) {
                 onClose={() => setDeleteTransaction(null)}
                 onConfirm={() => {
                     if (!deleteTransaction) return;
-                    router.delete(`/stocks/history/${deleteTransaction.id}`, {
+                    router.delete(appPath(`/stocks/history/${deleteTransaction.id}`), {
                         preserveScroll: true,
                         onSuccess: () => setDeleteTransaction(null),
                         onError: errors => {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import { Box, Car, MapPinned, Menu, Route as RouteIcon } from 'lucide-react';
 import { cn } from '../lib/cn';
+import { stripBasePath, useAppAsset, useAppPath } from '../lib/url';
 
 function NavLink({ href, current, icon: Icon, children }) {
     return (
@@ -22,7 +23,9 @@ function NavLink({ href, current, icon: Icon, children }) {
 
 export default function AppLayout({ title, children }) {
     const page = usePage();
-    const url = page.url || '';
+    const appAsset = useAppAsset();
+    const appPath = useAppPath();
+    const url = stripBasePath(page.url || '', page.props.app?.basePath);
     const [mobileOpen, setMobileOpen] = useState(false);
 
     return (
@@ -30,24 +33,24 @@ export default function AppLayout({ title, children }) {
             <div className="app-shell mx-auto rounded-[28px] border border-[#bcc5cf] bg-[#eef2f5] shadow-[0_18px_40px_rgba(15,23,42,0.16)]">
                 <header className="rounded-t-[28px] bg-[#103a67] px-4 py-3 text-white md:px-5">
                     <div className="flex items-center justify-between gap-4">
-                        <Link href="/routes" className="ui-nav-link flex min-w-0 items-center gap-3 rounded-2xl px-1.5 py-1">
-                            <img src="/assets/glicon.jpg" alt="Logo" className="h-10 w-10 rounded-full border border-white/15 object-cover" />
+                        <Link href={appPath('/routes')} className="ui-nav-link flex min-w-0 items-center gap-3 rounded-2xl px-1.5 py-1">
+                            <img src={appAsset('assets/glicon.jpg')} alt="Logo" className="h-10 w-10 rounded-full border border-white/15 object-cover" />
                             <div className="min-w-0">
                                 <div className="truncate text-[1.05rem] font-semibold leading-5">Golden Lion</div>
                             </div>
                         </Link>
 
                         <nav className="hidden items-center gap-2 md:flex">
-                            <NavLink href="/routes" current={url.startsWith('/routes')} icon={RouteIcon}>
+                            <NavLink href={appPath('/routes')} current={url.startsWith('/routes')} icon={RouteIcon}>
                                 Routes
                             </NavLink>
-                            <NavLink href="/cars" current={url.startsWith('/cars')} icon={Car}>
+                            <NavLink href={appPath('/cars')} current={url.startsWith('/cars')} icon={Car}>
                                 Cars
                             </NavLink>
-                            <NavLink href="/locations" current={url.startsWith('/locations')} icon={MapPinned}>
+                            <NavLink href={appPath('/locations')} current={url.startsWith('/locations')} icon={MapPinned}>
                                 Locations
                             </NavLink>
-                            <NavLink href="/stocks" current={url.startsWith('/stocks')} icon={Box}>
+                            <NavLink href={appPath('/stocks')} current={url.startsWith('/stocks')} icon={Box}>
                                 Stock
                             </NavLink>
                         </nav>
@@ -67,16 +70,16 @@ export default function AppLayout({ title, children }) {
                     {mobileOpen ? (
                         <div className="mt-3 border-t border-white/10 pt-3 md:hidden">
                             <div className="flex flex-col gap-2">
-                                <NavLink href="/routes" current={url.startsWith('/routes')} icon={RouteIcon}>
+                                <NavLink href={appPath('/routes')} current={url.startsWith('/routes')} icon={RouteIcon}>
                                     Routes
                                 </NavLink>
-                                <NavLink href="/cars" current={url.startsWith('/cars')} icon={Car}>
+                                <NavLink href={appPath('/cars')} current={url.startsWith('/cars')} icon={Car}>
                                     Cars
                                 </NavLink>
-                                <NavLink href="/locations" current={url.startsWith('/locations')} icon={MapPinned}>
+                                <NavLink href={appPath('/locations')} current={url.startsWith('/locations')} icon={MapPinned}>
                                     Locations
                                 </NavLink>
-                                <NavLink href="/stocks" current={url.startsWith('/stocks')} icon={Box}>
+                                <NavLink href={appPath('/stocks')} current={url.startsWith('/stocks')} icon={Box}>
                                     Stock
                                 </NavLink>
                             </div>

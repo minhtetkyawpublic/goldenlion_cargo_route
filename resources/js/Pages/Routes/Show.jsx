@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
+import { useAppPath } from '../../lib/url';
 
 function Money({ value }) {
     const num = Number(value ?? 0);
@@ -192,6 +193,7 @@ function VoucherSection({ title, leg, cargos, expenses, fallbackFrom, fallbackTo
 }
 
 export default function Show({ route, cargo_total, expense_total, profit }) {
+    const appPath = useAppPath();
     const legs = route.legs || [];
 
     const voucherSections = useMemo(() => {
@@ -236,7 +238,7 @@ export default function Show({ route, cargo_total, expense_total, profit }) {
                 </div>
 
                 <Link
-                    href="/routes"
+                    href={appPath('/routes')}
                     className="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
                 >
                     Back to routes

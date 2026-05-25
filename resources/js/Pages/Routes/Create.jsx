@@ -3,6 +3,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import AppLayout from '../../Layouts/AppLayout';
 import { cn } from '../../lib/cn';
 import { Minus, Plus, Trash2, X } from 'lucide-react';
+import { useAppPath } from '../../lib/url';
 
 function Modal({ open, title, onClose, children }) {
     if (!open) return null;
@@ -29,6 +30,7 @@ function Modal({ open, title, onClose, children }) {
 }
 
 export default function Create({ cars, locations, main_base_id }) {
+    const appPath = useAppPath();
     const form = useForm({
         car_id: '',
         origin_location_id: '',
@@ -171,7 +173,7 @@ export default function Create({ cars, locations, main_base_id }) {
                             expenses: cleanedExpenses,
                         }));
 
-                        form.post('/routes', {
+                        form.post(appPath('/routes'), {
                             onFinish: () => {
                                 form.transform(data => data);
                             },
@@ -307,7 +309,7 @@ export default function Create({ cars, locations, main_base_id }) {
 
                     <div className="flex flex-wrap items-center gap-2">
                         <Link
-                            href="/routes"
+                            href={appPath('/routes')}
                             className="ui-action-secondary inline-flex items-center justify-center rounded-lg border px-4 py-2 text-sm font-medium"
                         >
                             Cancel

@@ -4,6 +4,7 @@ import AppLayout from '../../Layouts/AppLayout';
 import ConfirmDialog from '../../Components/ConfirmDialog';
 import { cn } from '../../lib/cn';
 import { CarFront, EllipsisVertical, Pencil, Plus, Search, Trash2, X } from 'lucide-react';
+import { useAppPath } from '../../lib/url';
 
 function Field({ label, children, error }) {
     return (
@@ -118,6 +119,7 @@ function Pagination({ links }) {
 }
 
 export default function Index({ cars, filters }) {
+    const appPath = useAppPath();
     const [editingId, setEditingId] = useState(null);
     const [createOpen, setCreateOpen] = useState(false);
     const [deleteCar, setDeleteCar] = useState(null);
@@ -204,7 +206,7 @@ export default function Index({ cars, filters }) {
                             className="flex w-full gap-2 lg:w-auto"
                             onSubmit={e => {
                                 e.preventDefault();
-                                router.get('/cars', { search: searchForm.data.search || undefined }, { preserveState: true, replace: true });
+                                router.get(appPath('/cars'), { search: searchForm.data.search || undefined }, { preserveState: true, replace: true });
                             }}
                         >
                             <div className="w-full lg:w-64">
@@ -235,7 +237,7 @@ export default function Index({ cars, filters }) {
                                 {!isEditing ? (
                                     <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                                         <Link
-                                            href={`/cars/${car.id}`}
+                                            href={appPath(`/cars/${car.id}`)}
                                             className={cn(
                                                 'ui-clickable-card min-w-0 flex-1 rounded-2xl border border-[#d7dde4] bg-white px-3 py-3'
                                             )}
@@ -310,7 +312,7 @@ export default function Index({ cars, filters }) {
                                         className="grid grid-cols-1 gap-3 md:grid-cols-2"
                                         onSubmit={e => {
                                             e.preventDefault();
-                                            editForm.put(`/cars/${car.id}`, {
+                                            editForm.put(appPath(`/cars/${car.id}`), {
                                                 preserveScroll: true,
                                                 onSuccess: () => cancelEdit(),
                                             });
@@ -424,7 +426,7 @@ export default function Index({ cars, filters }) {
                 <form
                     onSubmit={e => {
                         e.preventDefault();
-                        createForm.post('/cars', {
+                        createForm.post(appPath('/cars'), {
                             preserveScroll: true,
                             onSuccess: () => {
                                 createForm.reset('plate_number', 'car_type', 'driver_name', 'remark');
@@ -511,7 +513,7 @@ export default function Index({ cars, filters }) {
                 onClose={() => setDeleteCar(null)}
                 onConfirm={() => {
                     if (!deleteCar) return;
-                    router.delete(`/cars/${deleteCar.id}`, {
+                    router.delete(appPath(`/cars/${deleteCar.id}`), {
                         preserveScroll: true,
                         onSuccess: () => setDeleteCar(null),
                         onError: errors => {
